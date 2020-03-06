@@ -1,9 +1,22 @@
-# DataSource Config
+server:
+  port: 8080
 spring:
+  servlet:
+    multipart:
+      max-file-size: 64MB
+      max-request-size: 64MB
+  application:
+    base:
+      package: com.example.mybatisPlus
+    name: mp
+    logger:
+      dir:
+        root: logs
+# DataSource Config
   datasource:
     driver-class-name: org.h2.Driver
     schema: classpath:db/schema-h2.sql
     data: classpath:db/data-h2.sql
-    url: jdbc:h2:mem:test
+    url: jdbc:h2:file:~/.h2/testdb
     username: root
     password: test
