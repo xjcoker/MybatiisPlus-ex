@@ -3,6 +3,7 @@ package com.example.mp.basic.controller;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.example.mp.basic.entity.User;
 import com.example.mp.basic.service.IUserService;
@@ -93,6 +94,7 @@ import java.util.*;
         userService.lambdaQuery().exists(1==1, "select id from user where age = 1");
         //自身的内部属性 entity 也用于生成 where 条件
         userService.lambdaQuery().select(User::getId, User::getAge, User::getEmail, User::getName, i -> i.getEmail().startsWith("test"));
+
         return userService.list();
     }
 
@@ -133,6 +135,9 @@ import java.util.*;
         userService.saveOrUpdateBatch(new ArrayList() {{
             add(user);
         }}, 1);
+        userService.lambdaUpdate().set(1==1,User::getName,"老李头");
+        new UpdateWrapper<>().lambda().setSql("name = '老李头'");
+
         return "hello mybatis-plus";
     }
 }

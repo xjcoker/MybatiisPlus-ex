@@ -3,6 +3,8 @@ package com.example.mp.basic.service;
 import com.example.mp.basic.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,17 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IUserService extends IService<User> {
 
+    /**
+     * 获取所有用户
+     *
+     * @return
+     */
+    List<User> getAllUser();
+
+    /**
+     * 获取所有用户2
+     *
+     * @return
+     */
+    List<User> getAllUser2();
 }
