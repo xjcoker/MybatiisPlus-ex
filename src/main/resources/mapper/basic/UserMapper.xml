@@ -4,4 +4,8 @@
     <select id="getAll2" resultType="com.example.mp.basic.entity.User">
         SELECT * FROM user ${ew.customSqlSegment}
     </select>
+
+    <select id="selectPageVo" resultType="com.example.mp.basic.entity.User">
+        SELECT * FROM user
+    </select>
 </mapper>

@@ -4,10 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mp.basic.entity.User;
 import com.example.mp.basic.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,10 +26,17 @@ import java.util.*;
  * @author xiangjun.song
  * @since 2020-03-06
  */
-@RestController @RequestMapping("/basic/user") public class UserController {
+@RestController
+@RequestMapping("/basic/user") public class UserController {
     @Autowired private IUserService userService;
 
-    @RequestMapping("/info") public List<User> getUserInfo(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("/info-page")
+    public IPage<User> getUserInfoPage(@RequestBody Page page,HttpServletRequest request, HttpServletResponse response) {
+        return userService.getUserPage(page);
+    }
+
+    @RequestMapping("/info")
+    public List<User> getUserInfo(HttpServletRequest request, HttpServletResponse response) {
         //eq等于 （链式查询）
         userService.lambdaQuery().eq(User::getAge, 25).list();
         userService.lambdaQuery().eq(User::getName, "value").eq(User::getAge, "value").list();
@@ -39,10 +49,9 @@ import java.util.*;
         //allEq全部等于map条件 参数为null时可设置是否忽略null字段数据
         userService.list(new LambdaQueryWrapper<>());
         userService.lambdaQuery().allEq(paramMap);
-
         userService.lambdaQuery().allEq(paramMap, false).list();
         //对待查询的字段名进行过滤
-//        userService.lambdaQuery().allEq((k, v) -> k.indexOf("a") > 0, paramMap, false).list();
+        //        userService.lambdaQuery().allEq((k, v) -> k.indexOf("a") > 0, paramMap, false).list();
         //第一个参数为是否执行后面的查询条件
         userService.lambdaQuery().allEq(true, paramMap, false).list();
         //不等于
@@ -89,16 +98,18 @@ import java.util.*;
         //apply 手动sql匹配
         userService.lambdaQuery().apply(1 == 1, "date_format(dateColumn,'%Y-%m-%d') = {0}", "2008-08-08");
         //last 直接拼接到sql最后 多次调用以最后一次为主 有sql注入风险
-        userService.lambdaQuery().last(1==1, "limit 1");
+        userService.lambdaQuery().last(1 == 1, "limit 1");
         //exists notExists同
-        userService.lambdaQuery().exists(1==1, "select id from user where age = 1");
+        userService.lambdaQuery().exists(1 == 1, "select id from user where age = 1");
         //自身的内部属性 entity 也用于生成 where 条件
-        userService.lambdaQuery().select(User::getId, User::getAge, User::getEmail, User::getName, i -> i.getEmail().startsWith("test"));
-
-        return userService.list();
+        userService.lambdaQuery()
+            .select(User::getId, User::getAge, User::getEmail, User::getName, i -> i.getEmail().startsWith("test"));
+        //        userService.getAllUser();
+        return userService.getAllUser2();
     }
 
-    @RequestMapping("/add") public String addUser(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping("/add")
+    public String addUser(HttpServletRequest request, HttpServletResponse response) {
         User user = new User();
         user.setId(1L);
         user.setAge(12);
@@ -135,7 +146,7 @@ import java.util.*;
         userService.saveOrUpdateBatch(new ArrayList() {{
             add(user);
         }}, 1);
-        userService.lambdaUpdate().set(1==1,User::getName,"老李头");
+        userService.lambdaUpdate().set(1 == 1, User::getName, "老李头");
         new UpdateWrapper<>().lambda().setSql("name = '老李头'");
 
         return "hello mybatis-plus";
