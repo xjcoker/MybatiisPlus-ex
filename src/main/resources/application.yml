@@ -6,6 +6,7 @@ management:
       show-details: always
 
 mybatis-plus:
+  typeEnumsPackage: com.example.mp.enums
   global-config:
     db-config:
       logic-delete-field: flag  #全局逻辑删除字段值 3.3.0开始支持

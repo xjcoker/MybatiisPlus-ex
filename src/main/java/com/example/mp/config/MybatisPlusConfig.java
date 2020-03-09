@@ -9,7 +9,9 @@ import com.baomidou.mybatisplus.extension.incrementer.H2KeyGenerator;
 import com.baomidou.mybatisplus.extension.incrementer.OracleKeyGenerator;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
@@ -57,8 +59,14 @@ public class MybatisPlusConfig {
     //            return conf;
     //        }
 
+    //自定义id生成器
     @Bean
     public IdentifierGenerator idGenerator() {
         return new CustomIdGenerator();
     }
+
+    //    @Bean
+    //    public Jackson2ObjectMapperBuilderCustomizer customizer(){
+    //        return builder -> builder.featuresToEnable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
+    //    }
 }

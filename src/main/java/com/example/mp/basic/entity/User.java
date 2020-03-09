@@ -3,6 +3,8 @@ package com.example.mp.basic.entity;
 import com.baomidou.mybatisplus.annotation.*;
 
 import java.io.Serializable;
+
+import com.example.mp.enums.DeleteEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -52,5 +54,5 @@ public class User implements Serializable {
      */
     @TableField("DELETED")
     @TableLogic
-    private String deleted;
+    private DeleteEnum deleted;
 }
