@@ -1,5 +1,17 @@
 server:
   port: 8080
+management:
+  endpoint:
+    health:
+      show-details: always
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: flag  #全局逻辑删除字段值 3.3.0开始支持
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0
+
 spring:
   servlet:
     multipart:
@@ -7,7 +19,7 @@ spring:
       max-request-size: 64MB
   application:
     base:
-      package: com.example.mybatisPlus
+      package: com.example.mp
     name: mp
     logger:
       dir:
@@ -20,3 +32,18 @@ spring:
     url: jdbc:h2:file:~/.h2/testdb
     username: root
     password: test
+  rabbitmq:
+      host: 127.0.0.1
+      port: 5672
+      username: root
+      password: test
+      listener:
+        simple:
+          retry:
+            enabled: true
+            initial-interval: 1000
+            # 最大尝试次数
+            max-attempts: 3
+            max-interval: 10000
+            multiplier: 2.0
+            stateless: true

@@ -1,9 +1,7 @@
 package com.example.mp.basic.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -49,5 +47,10 @@ public class User implements Serializable {
     @TableField("EMAIL")
     private String email;
 
-
+    /**
+     * 是否删除
+     */
+    @TableField("DELETED")
+    @TableLogic
+    private String deleted;
 }

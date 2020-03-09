@@ -10,9 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.mp.basic.entity.User;
 import com.example.mp.basic.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -109,7 +107,7 @@ import java.util.*;
     }
 
     @RequestMapping("/add")
-    public String addUser(HttpServletRequest request, HttpServletResponse response) {
+    public Boolean addUser(HttpServletRequest request, HttpServletResponse response) {
         User user = new User();
         user.setId(1L);
         user.setAge(12);
@@ -147,9 +145,19 @@ import java.util.*;
             add(user);
         }}, 1);
         userService.lambdaUpdate().set(1 == 1, User::getName, "老李头");
+        //作为参数 如何传递？
         new UpdateWrapper<>().lambda().setSql("name = '老李头'");
+        return Boolean.TRUE;
+    }
 
-        return "hello mybatis-plus";
+    @GetMapping("/delete/{userId}")
+    public Boolean deleteUser(@PathVariable("userId") Long userId){
+        return userService.removeById(userId);
+    }
+
+    @GetMapping("/detail/{userId}")
+    public User userDetail(@PathVariable("userId") Long userId){
+        return userService.getById(userId);
     }
 }
 
