@@ -30,4 +30,5 @@ public class TestAnotation implements Serializable{
 //    @TableLogic
 //    @SqlParser
 //    @KeySequence
+
 }
