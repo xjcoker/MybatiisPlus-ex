@@ -12,6 +12,7 @@ mybatis-plus:
       logic-delete-field: flag  #全局逻辑删除字段值 3.3.0开始支持
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0
+  mapper-locations: classpath*:/mapper/**/*.xml
 
 spring:
   servlet:
@@ -25,7 +26,6 @@ spring:
     logger:
       dir:
         root: logs
-# DataSource Config
   datasource:
     driver-class-name: org.h2.Driver
     schema: classpath:db/schema-h2.sql

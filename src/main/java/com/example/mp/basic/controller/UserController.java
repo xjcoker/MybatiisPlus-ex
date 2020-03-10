@@ -25,7 +25,8 @@ import java.util.*;
  * @since 2020-03-06
  */
 @RestController
-@RequestMapping("/basic/user") public class UserController {
+@RequestMapping("/basic/user")
+public class UserController {
     @Autowired private IUserService userService;
 
     @RequestMapping("/info-page")
@@ -145,7 +146,6 @@ import java.util.*;
             add(user);
         }}, 1);
         userService.lambdaUpdate().set(1 == 1, User::getName, "老李头");
-        //作为参数 如何传递？
         new UpdateWrapper<>().lambda().setSql("name = '老李头'");
         return Boolean.TRUE;
     }
@@ -158,6 +158,12 @@ import java.util.*;
     @GetMapping("/detail/{userId}")
     public User userDetail(@PathVariable("userId") Long userId){
         return userService.getById(userId);
+    }
+
+    @PostMapping("/update")
+    public Boolean updateUser(@RequestBody User user){
+        user.setVersion(1);
+        return userService.updateById(user);
     }
 }
 

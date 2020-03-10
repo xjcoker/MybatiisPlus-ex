@@ -14,7 +14,6 @@ public enum DeleteEnum implements IEnum<Integer> {
 
     @EnumValue    //标记数据库存的值是code
     private int value;
-
     @JsonValue    //标记响应json值
     private String desc;
 
@@ -23,10 +22,10 @@ public enum DeleteEnum implements IEnum<Integer> {
         this.desc = desc;
     }
 
-//    @Override
-//    public String toString() {
-//        return "" + value + "";
-//    }
+    @Override
+    public String toString() {
+        return "" + value + "";
+    }
 
     @Override public Integer getValue() {
         return this.value;
